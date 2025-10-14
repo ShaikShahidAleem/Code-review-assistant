@@ -6,8 +6,19 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import fs from 'fs';
 import { initDatabase, saveReview, getReview, getAllReviews } from './services/database.js';
-import { analyzeCode } from './services/openai.js';
 import config from './config.js';
+
+// Dynamically import the AI service based on configuration
+let analyzeCode;
+if (config.aiProvider === 'gemini') {
+  const geminiModule = await import('./services/gemini.js');
+  analyzeCode = geminiModule.analyzeCode;
+  console.log('🤖 Using Google Gemini AI for code analysis');
+} else {
+  const openaiModule = await import('./services/openai.js');
+  analyzeCode = openaiModule.analyzeCode;
+  console.log('🤖 Using OpenAI for code analysis');
+}
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -22,6 +33,11 @@ app.use(fileUpload({
   abortOnLimit: true,
 }));
 
+// Handle Chrome DevTools requests gracefully
+app.get('/.well-known/appspecific/com.chrome.devtools.json', (req, res) => {
+  res.status(404).json({ error: 'Not found' });
+});
+
 // Simple health check endpoint
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
@@ -35,7 +51,8 @@ app.post('/api/review', async (req, res) => {
     }
 
     const file = req.files.file;
-    const fileExt = path.extname(file.name).toLowerCase().substring(1);
+    const filename = file.name;
+    const fileExt = path.extname(filename).toLowerCase().substring(1);
     
     if (config.fileUpload?.allowedFileTypes && !config.fileUpload.allowedFileTypes.includes(`.${fileExt}`)) {
       return res.status(400).json({ 
@@ -47,8 +64,10 @@ app.post('/api/review', async (req, res) => {
     const feedback = await analyzeCode(code, fileExt);
     
     const reviewId = await saveReview({
-      code,
-      feedback
+      filename,
+      filetype: fileExt,
+      original_code: code,
+      review_report: feedback
     });
 
     res.json({

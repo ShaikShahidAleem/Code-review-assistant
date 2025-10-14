@@ -6,6 +6,11 @@ const openai = new OpenAI({
 });
 
 export async function analyzeCode(code, fileType) {
+  // Check if API key is configured
+  if (!config.openai.apiKey || config.openai.apiKey === 'YOUR_API_KEY_HERE') {
+    throw new Error('OpenAI API key is not configured. Please add your API key to the .env file. See SETUP.md for instructions.');
+  }
+
   try {
     const prompt = `You are an expert code reviewer. Analyze the following ${fileType} code for:
 1. Code quality and best practices

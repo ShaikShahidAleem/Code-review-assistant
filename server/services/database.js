@@ -27,8 +27,10 @@ async function getDb() {
     await db.exec(`
       CREATE TABLE IF NOT EXISTS reviews (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        code TEXT NOT NULL,
-        feedback TEXT NOT NULL,
+        filename TEXT NOT NULL,
+        filetype TEXT NOT NULL,
+        original_code TEXT NOT NULL,
+        review_report TEXT NOT NULL,
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP
       )
     `);
@@ -56,10 +58,10 @@ async function initDatabase() {
 async function saveReview(reviewData) {
   const db = await getDb();
   try {
-    const { code, feedback } = reviewData;
+    const { filename, filetype, original_code, review_report } = reviewData;
     const result = await db.run(
-      'INSERT INTO reviews (code, feedback) VALUES (?, ?)',
-      [code, feedback]
+      'INSERT INTO reviews (filename, filetype, original_code, review_report) VALUES (?, ?, ?, ?)',
+      [filename, filetype, original_code, review_report]
     );
     return result.lastID;
   } catch (error) {
