@@ -2,10 +2,6 @@
 
 An intelligent code review tool that provides instant, AI-powered feedback on your code quality, best practices, security vulnerabilities, and performance optimizations.
 
-![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![Node](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen.svg)
-![React](https://img.shields.io/badge/react-19.2.0-61dafb.svg)
-
 ## ✨ Features
 
 - 🤖 **AI-Powered Analysis** - Uses Google Gemini AI (FREE!) or OpenAI for intelligent code reviews
