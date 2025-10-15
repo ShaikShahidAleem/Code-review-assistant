@@ -1,3 +1,6 @@
+Video Explanation: Present in the root folder
+Video Explanation Link: https://drive.google.com/file/d/1o0dYXWShp_Gwo3jtmDbXr62OcLE_u6Ut/view?usp=sharing
+
 # 🤖 AI-Powered Code Review Assistant
 
 An intelligent code review tool that provides instant, AI-powered feedback on your code quality, best practices, security vulnerabilities, and performance optimizations.
