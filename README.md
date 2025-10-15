@@ -19,14 +19,6 @@ An intelligent code review tool that provides instant, AI-powered feedback on yo
 
 JavaScript • TypeScript • Python • Java • C/C++ • Go • Ruby • PHP • C# • HTML • CSS • JSON
 
-## 📸 Screenshots
-
-### Light Mode
-![Home Page](https://via.placeholder.com/800x400/f9fafb/4f46e5?text=Code+Review+Assistant+Home)
-
-### Dark Mode
-![Review Page](https://via.placeholder.com/800x400/1f2937/818cf8?text=AI+Code+Review+Results)
-
 ## 🚀 Quick Start
 
 ### Prerequisites
